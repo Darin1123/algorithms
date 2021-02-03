@@ -33,61 +33,45 @@ public class Main {
     private List<Integer> findRemaining() {
         List<Integer> result = new ArrayList<>();
         for (int i = 0; i < N; i++) {
-            if (this.chosen[i] == 0) { // not chosen
+            if (this.chosen[i] == 0) {
                 boolean conflict = false;
                 for (int j = 0; j < N; j++) {
                     if (chosen[j] == 1) {
-                        int chosenStart = starts.get(j);
-                        int chosenEnd = ends.get(j);
-                        int tStart = starts.get(i);
-                        int tEnd = ends.get(i);
-                        if (!(tStart > chosenEnd || tEnd < chosenStart)) {
+                        if (!(starts.get(i) > ends.get(j) || ends.get(i) < starts.get(j))) {
                             conflict = true;
                             break;
                         }
                     }
                 }
-                if (!conflict) {
+                if (!conflict)
                     result.add(i);
-                }
             }
         }
         return result;
     }
 
     public void dfs(int c, int tempProfit) {
-//        System.out.println("choosing " + c);
         this.chosen[c] = 1;
+        tempProfit += profits.get(c);
+        if (tempProfit > this.profit) { this.profit = tempProfit; }
         List<Integer> remaining = findRemaining();
-//        System.out.println("remaining: " + remaining);
-//        System.out.println("chosen: " + Arrays.toString(chosen));
         if (remaining.size() == 0) {
             this.chosen[c] = 0;
-            if (tempProfit > this.profit) {
-                this.profit = tempProfit;
-            }
             return;
         }
-        if (remaining.size()==1) {
+        if (remaining.size() == 1) {
             this.chosen[c] = 0;
-            tempProfit += profits.get(c);
-            if (tempProfit > this.profit) {
-                this.profit = tempProfit;
-            }
+            this.profit += profits.get(c);
             return;
         }
         for (Integer remain : remaining) {
-            dfs(remain, tempProfit + this.profits.get(remain));
+            dfs(remain, tempProfit);
             this.chosen[remain] = 0;
         }
     }
 
     public int getProfit() {
         return this.profit;
-    }
-
-    public int getProfits(int i) {
-        return profits.get(i);
     }
 
     public static void main(String[] args) {
@@ -115,7 +99,7 @@ public class Main {
         List<Integer> profit = Arrays.asList(7, 8, 9, 15);
         Main main = new Main(N, start, end, profit);
         for (int i = 0; i < N; i++) {
-            main.dfs(i, main.getProfits(i));
+            main.dfs(i, 0);
         }
         System.out.println(main.getProfit());
     }

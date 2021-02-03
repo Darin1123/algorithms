@@ -5,16 +5,18 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * given N games, each has the followings:
- * 1) start time
- * 2) end time
- * 3) reward
- * goal: get the maximum reward.
- * the input is like this
- * N
- * s1 s1 s3 ...
- * e1 e2 e3 ...
- * p1 p2 p3 ...
+ * The question
+ *     input: given N games, each has the followings:
+ *         1) start time
+ *         2) end time
+ *         3) reward
+ *     goal: get the maximum reward.
+ *
+ * Input format
+ *     N
+ *     s1 s1 s3 ...
+ *     e1 e2 e3 ...
+ *     p1 p2 p3 ...
  */
 public class Main {
     private final int N;
@@ -24,6 +26,13 @@ public class Main {
     private final List<Integer> ends;
     private final List<Integer> profits;
 
+    /**
+     * constructor
+     * @param N size
+     * @param starts starting times
+     * @param ends ending times
+     * @param profits profits
+     */
     public Main(int N, List<Integer> starts, List<Integer> ends, List<Integer> profits) {
         this.starts = starts;
         this.ends = ends;
@@ -33,32 +42,31 @@ public class Main {
         this.chosen = new int[N];
     }
 
-    private List<Integer> findRemaining() {
-        List<Integer> result = new ArrayList<>();
+    /**
+     * backtracking implementation
+     * @param c the starting point
+     * @param tempProfit the temporary profit
+     */
+    private void dfs(int c, int tempProfit) {
+        this.chosen[c] = 1;
+        tempProfit += profits.get(c);
+        //each time the tempProfit is updated, compare it with the final answer.
+        if (tempProfit > this.profit) this.profit = tempProfit;
+        List<Integer> remaining = new ArrayList<>();
         for (int i = 0; i < N; i++) {
             if (this.chosen[i] == 0) {
                 boolean conflict = false;
                 for (int j = 0; j < N; j++) {
-                    if (chosen[j] == 1 && !(starts.get(i) > ends.get(j) || ends.get(i) < starts.get(j))) {
+                    if (chosen[j] == 1 &&
+                            !(starts.get(i) > ends.get(j) || ends.get(i) < starts.get(j))) {
                         conflict = true; break;
                     }
                 }
-                if (!conflict) result.add(i);
+                if (!conflict) remaining.add(i);
             }
         }
-        return result;
-    }
-
-    private void dfs(int c, int tempProfit) {
-        this.chosen[c] = 1;
-        tempProfit += profits.get(c);
-        if (tempProfit > this.profit) {
-            this.profit = tempProfit;
-        }
-        List<Integer> remaining = findRemaining();
         if (remaining.size() == 0) {
-            this.chosen[c] = 0;
-            return;
+            this.chosen[c] = 0; return;
         }
         if (remaining.size() == 1) {
             this.chosen[c] = 0;
@@ -71,10 +79,12 @@ public class Main {
         }
     }
 
+    /**
+     * calculates the maximum profit
+     * @return the maximum profit
+     */
     public int getMaxProfit() {
-        for (int i = 0; i < N; i++) {
-            dfs(i, 0);
-        }
+        for (int i = 0; i < N; i++) dfs(i, 0);
         return this.profit;
     }
 

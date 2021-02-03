@@ -10,10 +10,10 @@ import java.util.Set;
  * 例:
  *     1e2eee2r2r2t -> 1e2rt
  */
-public class HUAWEIMockTest {
+public class MockTest {
     private final Set<Character> dictionary;
 
-    public HUAWEIMockTest() {
+    public MockTest() {
         this.dictionary = new HashSet<>();
     }
 
@@ -31,7 +31,7 @@ public class HUAWEIMockTest {
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        HUAWEIMockTest test = new HUAWEIMockTest();
+        MockTest test = new MockTest();
         System.out.println(test.killDuplicatedChar(sc.nextLine()));
     }
 }

@@ -5,13 +5,16 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * given N games, each has a start time, end time and a reward.
- * get the maximum reward.
+ * given N games, each has the followings:
+ * 1) start time
+ * 2) end time
+ * 3) reward
+ * goal: get the maximum reward.
  * the input is like this
- *     N
- *     s1 s1 s3 ...
- *     e1 e2 e3 ...
- *     p1 p2 p3 ...
+ * N
+ * s1 s1 s3 ...
+ * e1 e2 e3 ...
+ * p1 p2 p3 ...
  */
 public class Main {
     private final int N;
@@ -36,24 +39,22 @@ public class Main {
             if (this.chosen[i] == 0) {
                 boolean conflict = false;
                 for (int j = 0; j < N; j++) {
-                    if (chosen[j] == 1) {
-                        if (!(starts.get(i) > ends.get(j) || ends.get(i) < starts.get(j))) {
-                            conflict = true;
-                            break;
-                        }
+                    if (chosen[j] == 1 && !(starts.get(i) > ends.get(j) || ends.get(i) < starts.get(j))) {
+                        conflict = true; break;
                     }
                 }
-                if (!conflict)
-                    result.add(i);
+                if (!conflict) result.add(i);
             }
         }
         return result;
     }
 
-    public void dfs(int c, int tempProfit) {
+    private void dfs(int c, int tempProfit) {
         this.chosen[c] = 1;
         tempProfit += profits.get(c);
-        if (tempProfit > this.profit) { this.profit = tempProfit; }
+        if (tempProfit > this.profit) {
+            this.profit = tempProfit;
+        }
         List<Integer> remaining = findRemaining();
         if (remaining.size() == 0) {
             this.chosen[c] = 0;
@@ -70,11 +71,19 @@ public class Main {
         }
     }
 
-    public int getProfit() {
+    public int getMaxProfit() {
+        for (int i = 0; i < N; i++) {
+            dfs(i, 0);
+        }
         return this.profit;
     }
 
     public static void main(String[] args) {
+        int N = 4;
+        List<Integer> start = Arrays.asList(3, 7, 4, 7);
+        List<Integer> end = Arrays.asList(6, 9, 6, 8);
+        List<Integer> profit = Arrays.asList(7, 8, 9, 15);
+        System.out.println(new Main(N, start, end, profit).getMaxProfit());
 //        Scanner sc = new Scanner(System.in);
 //        int N = Integer.parseInt(sc.nextLine());
 //        String startStr = sc.nextLine();
@@ -92,15 +101,5 @@ public class Main {
 //                .stream(profitStr.split(" "))
 //                .map(Integer::valueOf)
 //                .collect(Collectors.toList());
-
-        int N = 4;
-        List<Integer> start = Arrays.asList(3, 7, 4, 7);
-        List<Integer> end = Arrays.asList(6, 9, 6, 8);
-        List<Integer> profit = Arrays.asList(7, 8, 9, 15);
-        Main main = new Main(N, start, end, profit);
-        for (int i = 0; i < N; i++) {
-            main.dfs(i, 0);
-        }
-        System.out.println(main.getProfit());
     }
 }

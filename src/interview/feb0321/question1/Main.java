@@ -1,4 +1,4 @@
-package interview.wawei.feb0321.question1;
+package interview.feb0321.question1;
 
 import java.util.HashMap;
 import java.util.Map;

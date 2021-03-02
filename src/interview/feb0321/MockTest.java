@@ -1,4 +1,4 @@
-package interview.wawei.feb0321;
+package interview.feb0321;
 
 import java.util.HashSet;
 import java.util.Scanner;

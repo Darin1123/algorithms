@@ -1,4 +1,4 @@
-package sort;
+package algo4th.unionFind.sort;
 
 public class Insertion extends Sort {
     public static void sort(Comparable[] a) {

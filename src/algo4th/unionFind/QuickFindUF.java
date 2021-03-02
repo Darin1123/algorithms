@@ -1,4 +1,4 @@
-package unionFind;
+package algo4th.unionFind;
 
 /**
  * quick-find

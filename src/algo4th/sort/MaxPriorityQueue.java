@@ -1,4 +1,4 @@
-package algo4th.unionFind.sort;
+package algo4th.sort;
 
 public class MaxPriorityQueue<T extends Comparable> {
     private T[] queue;

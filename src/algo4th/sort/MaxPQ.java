@@ -1,4 +1,4 @@
-package algo4th.unionFind.sort;
+package algo4th.sort;
 
 public class MaxPQ<Key extends Comparable<Key>> {
     private Key[] pq;

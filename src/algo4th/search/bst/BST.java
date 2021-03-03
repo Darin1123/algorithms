@@ -470,8 +470,8 @@ public class BST<Key extends Comparable<Key>, Value> {
         for (String s : input) {
             bst.put(s, 1);
         }
-        bst.size("D", "T");
-        System.out.println();
+//        bst.size("D", "T");
+//        System.out.println();
         bst.keys("D", "T");
     }
 }

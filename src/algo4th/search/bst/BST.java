@@ -458,6 +458,21 @@ public class BST<Key extends Comparable<Key>, Value> {
         return true;
     }
 
+    /**
+     * Exercise from textbook 3.2.36
+     * keys method with no recursive calls;
+     * @param lo lower bound
+     * @param hi upper bound
+     * @return key in range [lo, hi], sorted
+     */
+    public Iterable<Key> keys1(Key lo, Key hi) {
+        Queue<Key> queue = new Queue<>();
+        Key[] tempLeft = (Key[]) new Object[height()];
+        Key[] tempRight = (Key[]) new Object[height()];
+        // todo no idea how to do it
+        return queue;
+    }
+
 
     /**
      * Unit tests the {@code BST} data type.
@@ -470,8 +485,9 @@ public class BST<Key extends Comparable<Key>, Value> {
         for (String s : input) {
             bst.put(s, 1);
         }
-//        bst.size("D", "T");
-//        System.out.println();
-        bst.keys("D", "T");
+
+        for (String key : bst.keys1("D", "T")) {
+            System.out.println(key);
+        }
     }
 }

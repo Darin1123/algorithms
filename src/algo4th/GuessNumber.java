@@ -1,3 +1,5 @@
+package algo4th;
+
 import java.util.Random;
 
 /**

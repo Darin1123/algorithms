@@ -4,6 +4,8 @@ public class TrieST<Value> {
     private static final int R = 256;
     private Node root;
 
+    private String lastKey;  // for floor method
+
     private static class Node {
         private Object val;
         private Node[] next = new Node[R];
@@ -58,12 +60,69 @@ public class TrieST<Value> {
     }
 
     public String floor(String key) {
-        // TODO
+        return floor(root, key, new StringBuilder());
+    }
+
+    private String floor(Node node, String key, StringBuilder tracker) {
+        if (node == null) {
+            return null;
+        }
+        for (char c = 0; c < R; c++) {
+            tracker.append(c);
+            if (node.next[c] != null) {
+                if (node.next[c].val != null) {  // this is a key
+                    if (tracker.toString().compareTo(key) > 0) {  // current key greater than input key
+                        return lastKey;  // return last key
+                    } else {  // current key less than input key
+                        lastKey = tracker.toString();
+                        String possibleKey = floor(node.next[c], key, tracker);
+                        if (possibleKey != null) {
+                            return possibleKey;
+                        }
+                    }
+                } else {  // this is not a key
+                    String possibleKey = floor(node.next[c], key, tracker);
+                    if (possibleKey != null) {  // still no luck, keep looking down
+                        return possibleKey;
+                    }
+                }
+            }
+            tracker.deleteCharAt(tracker.length() - 1);  // back track
+        }
+        // the next array contains no next nodes
         return null;
     }
 
-    public  String ceiling(String key) {
-        // TODO
+    public String ceiling(String key) {
+        return ceiling(root, key, new StringBuilder());
+    }
+
+    private String ceiling(Node node, String key, StringBuilder tracker) {
+        if (node == null) {
+            return null;
+        }
+        for (char c = 0; c < R; c++) {
+            tracker.append(c);
+            if (node.next[c] != null) {
+                if (node.next[c].val != null) {  // this is a key
+                    if (tracker.toString().compareTo(key) > 0) {  // current key greater than input key
+                        return tracker.toString();  // return this key
+                    } else {
+                        String possibleKey = ceiling(node.next[c], key, tracker);
+                        if (possibleKey != null) {  // still no luck, keep looking down
+                            return possibleKey;
+                        }
+                    }
+                } else {  // this is not a key
+                    String possibleKey = ceiling(node.next[c], key, tracker);
+                    if (possibleKey != null) {  // still no luck, keep looking down
+                        return possibleKey;
+                    }
+                }
+            }
+            tracker.deleteCharAt(tracker.length() - 1);  // back track
+        }
+        // the next array contains no next nodes
         return null;
     }
 
@@ -114,15 +173,4 @@ public class TrieST<Value> {
         return null;
     }
 
-    public static void main(String[] args) {
-        TrieST<Integer> trieST = new TrieST<>();
-        trieST.put("shall", 1);
-        trieST.put("she", 2);
-        trieST.put("shell", 3);
-        trieST.put("shore", 4);
-        System.out.println(trieST.rank("shall"));
-        System.out.println(trieST.rank("she"));
-        System.out.println(trieST.rank("shell"));
-        System.out.println(trieST.rank("shore"));
-    }
 }

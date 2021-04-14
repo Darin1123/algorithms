@@ -4,6 +4,8 @@ public class TrieST2<Value> {
     private static final int R = 256;
     private Node root;
 
+    private String lastKey;
+
     private static class Node {
         private Object val;
         private Node[] next = new Node[R];
@@ -54,12 +56,95 @@ public class TrieST2<Value> {
     }
 
     public String floor(String key) {
-        // TODO
-        return null;
+        return floor(root, key, 0, new StringBuilder(), null, true);
     }
 
-    public  String ceiling(String key) {
-        // TODO
+    private String floor(Node node, String key, int digit, StringBuilder prefix,
+                         String lastKeyFound, boolean mustBeEqualDigit) {
+        if (node == null) {
+            return null;
+        }
+
+        if (prefix.toString().compareTo(key) > 0) {
+            return lastKeyFound;
+        }
+
+        if (node.val != null) {
+            lastKeyFound = prefix.toString();
+        }
+
+        char currentChar;
+
+        if (mustBeEqualDigit && digit < key.length()) {
+            currentChar = key.charAt(digit);
+        } else {
+            currentChar = R - 1;
+        }
+
+        for (char nextChar = currentChar; true; nextChar--) {
+            if (node.next[nextChar] != null) {
+                if (nextChar < currentChar) {
+                    mustBeEqualDigit = false;
+                }
+
+                lastKeyFound = floor(node.next[nextChar], key, digit + 1, prefix.append(nextChar), lastKeyFound, mustBeEqualDigit);
+
+                if (lastKeyFound != null) {
+                    return lastKeyFound;
+                }
+                prefix.deleteCharAt(prefix.length() - 1);
+            }
+
+            // nextChar value never becomes less than zero in the for loop, so we need this extra validation
+            if (nextChar == 0) {
+                break;
+            }
+        }
+
+        return lastKeyFound;
+    }
+
+    public String ceiling(String key) {
+        if (key == null) {
+            throw new IllegalArgumentException("Key cannot be null");
+        }
+
+        return ceiling(root, key, 0, new StringBuilder(), true);
+    }
+
+    private String ceiling(Node node, String key, int digit, StringBuilder prefix, boolean mustBeEqualDigit) {
+        if (node == null) {
+            return null;
+        }
+
+        if (node.val != null && prefix.toString().compareTo(key) >= 0) {
+            return prefix.toString();
+        }
+
+        char currentChar;
+
+        if (mustBeEqualDigit && digit < key.length()) {
+            currentChar = key.charAt(digit);
+        } else {
+            currentChar = 0;
+        }
+
+        for (char nextChar = currentChar; nextChar < R; nextChar++) {
+            if (node.next[nextChar] != null) {
+                if (nextChar > currentChar) {
+                    mustBeEqualDigit = false;
+                }
+
+                String keyFound = ceiling(node.next[nextChar], key, digit + 1, prefix.append(nextChar),
+                        mustBeEqualDigit);
+
+                if (keyFound != null) {
+                    return keyFound;
+                }
+                prefix.deleteCharAt(prefix.length() - 1);
+            }
+        }
+
         return null;
     }
 
@@ -122,5 +207,7 @@ public class TrieST2<Value> {
         System.out.println(trieST.rank("she"));
         System.out.println(trieST.rank("shell"));
         System.out.println(trieST.rank("shore"));
+        System.out.println(trieST.ceiling("she"));
+//        System.out.println(trieST.floor("shell"));
     }
 }

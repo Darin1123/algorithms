@@ -68,11 +68,13 @@ public class TrieST<Value> {
             return null;
         }
         for (char c = 0; c < R; c++) {
-            tracker.append(c);
             if (node.next[c] != null) {
+                tracker.append(c);
                 if (node.next[c].val != null) {  // this is a key
                     if (tracker.toString().compareTo(key) > 0) {  // current key greater than input key
                         return lastKey;  // return last key
+                    } else if (tracker.toString().compareTo(key) == 0) {
+                        return tracker.toString();
                     } else {  // current key less than input key
                         lastKey = tracker.toString();
                         String possibleKey = floor(node.next[c], key, tracker);
@@ -86,8 +88,8 @@ public class TrieST<Value> {
                         return possibleKey;
                     }
                 }
+                tracker.deleteCharAt(tracker.length() - 1);  // back track
             }
-            tracker.deleteCharAt(tracker.length() - 1);  // back track
         }
         // the next array contains no next nodes
         return null;
@@ -105,7 +107,7 @@ public class TrieST<Value> {
             tracker.append(c);
             if (node.next[c] != null) {
                 if (node.next[c].val != null) {  // this is a key
-                    if (tracker.toString().compareTo(key) > 0) {  // current key greater than input key
+                    if (tracker.toString().compareTo(key) >= 0) {  // current key greater than input key
                         return tracker.toString();  // return this key
                     } else {
                         String possibleKey = ceiling(node.next[c], key, tracker);
@@ -172,5 +174,4 @@ public class TrieST<Value> {
         }
         return null;
     }
-
 }

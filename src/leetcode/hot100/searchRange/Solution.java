@@ -15,10 +15,6 @@ public class Solution {
             return new int[] {-1, -1};
         }
 
-        // initialize answer array
-        int[] answer = new int[2];
-        int N = nums.length;
-
         // perform binary search to find one target
         int left = leftBinarySearch(nums, target);
 
@@ -31,9 +27,7 @@ public class Solution {
         int right = rightBinarySearch(nums, target);
 
         // return answer
-        answer[0] = left;
-        answer[1] = right;
-        return answer;
+        return new int[] {left, right};
     }
 
     /**
@@ -67,7 +61,7 @@ public class Solution {
         int lo = 0;
         int hi = nums.length - 1;
         while (lo < hi) {
-            int mid = lo + (hi - lo + 1) / 2;
+            int mid = lo + (hi - lo + 1) / 2;  // 注意这里要向上取整, 否则会进入死循环
             System.out.println(lo + ", " + hi + ", " + mid);
             if      (target < nums[mid])    hi = mid - 1;
             else if (target > nums[mid])    lo = mid + 1;

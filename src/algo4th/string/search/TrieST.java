@@ -1,4 +1,4 @@
-package algo4th.string;
+package algo4th.string.search;
 
 public class TrieST<Value> {
     private static final int R = 256;

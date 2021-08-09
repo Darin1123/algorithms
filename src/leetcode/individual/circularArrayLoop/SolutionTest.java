@@ -1,4 +1,4 @@
-package leetcode.circularArrayLoop;
+package leetcode.individual.circularArrayLoop;
 
 import org.junit.Assert;
 import org.junit.Test;

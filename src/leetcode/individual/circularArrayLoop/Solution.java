@@ -1,4 +1,4 @@
-package leetcode.circularArrayLoop;
+package leetcode.individual.circularArrayLoop;
 
 import java.util.HashSet;
 import java.util.Set;

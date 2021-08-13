@@ -1,6 +1,7 @@
 package leetcode.individual.numberOfArithmeticSlices;
 
 /**
+ * 2021/08/10
  * @author Zefeng Wang
  */
 

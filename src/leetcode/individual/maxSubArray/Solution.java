@@ -1,8 +1,5 @@
 package leetcode.individual.maxSubArray;
 
-import java.util.ArrayList;
-import java.util.Collections;
-
 /**
  * https://leetcode-cn.com/problems/maximum-subarray/
  * @author Zefeng Wang
@@ -10,12 +7,15 @@ import java.util.Collections;
 
 public class Solution {
     public int maxSubArray(int[] nums) {
-
-
-        return 0;
+        int pre = 0, res = nums[0];
+        for (int num : nums) {
+            pre = Math.max(pre + num, num);
+            res = Math.max(pre, res);
+        }
+        return res;
     }
 
     public static void main(String[] args) {
-        new Solution().maxSubArray(new int[] {-2, 1, -3, 4, -1, 2, 1, -5, 4});
+        System.out.println(new Solution().maxSubArray(new int[]{-2, 1, -3, 4, -1, 2, 1, -5, 4}));
     }
 }

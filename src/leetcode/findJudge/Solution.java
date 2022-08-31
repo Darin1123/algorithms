@@ -85,7 +85,7 @@ public class Solution {
         test(3, new int[][] {new int[] {1, 2}, new int[] {2, 3}}, -1);
         // Test case 5
         test(4, new int[][] {new int[] {1, 3},  new int[] {1, 4}, new int[] {2, 3}, new int[] {2, 4}, new int[] {4, 3}}, 3);
-        //Test case 6
+        // Test case 6
         test(1, new int[][] {}, 1);
     }
 }

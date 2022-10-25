@@ -1,4 +1,4 @@
-package interview.aug3122.task2;
+package interview.aug3122.shunfeng.task2;
 
 public class Main {
 
